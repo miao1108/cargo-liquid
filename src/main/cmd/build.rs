@@ -128,7 +128,7 @@ fn run_xargo_build(
         let target = Some(BUILD_TARGET_ARCH);
         let target_dir = crate_metadata.target_dir();
         let target_dir_arg = format!("--target-dir={}", target_dir.to_string_lossy());
-        let mut other_args = ["--no-default-features", "--release", &target_dir_arg, "-C", "target-cpu=mvp"].to_vec();
+        let mut other_args = ["--no-default-features", "--release", &target_dir_arg, "-Ctarget-cpu=mvp"].to_vec();
         if use_gm {
             other_args.push("--features=gm");
         }

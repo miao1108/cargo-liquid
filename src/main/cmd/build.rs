@@ -125,7 +125,7 @@ fn run_xargo_build(
         }
 
          // 设置 RUSTFLAGS 环境变量
-        let rustflags = "-C link-arg=-zstack-size=32768 -C target-feature=-mutable-globals,-sign-ext,-multivalue,-simd128";
+        let rustflags = "-C link-arg=-zstack-size=32768 -C target-feature=-mutable-globals,-sign-ext,-multivalue,-simd128 -C target-cpu=mvp";
         env::set_var("RUSTFLAGS", rustflags);
         let manifest_path = Some(manifest_path);
         let target = Some(BUILD_TARGET_ARCH);

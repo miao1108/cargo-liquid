@@ -125,7 +125,7 @@ fn run_xargo_build(
         }
 
          // 设置 RUSTFLAGS 环境变量
-        let rustflags = "-C target-cpu=mvp";
+        let rustflags = "-C target-feature=-sign-ext -C target-cpu=mvp";
         env::set_var("RUSTFLAGS", rustflags);
         let manifest_path = Some(manifest_path);
         let target = Some(BUILD_TARGET_ARCH);

@@ -124,11 +124,14 @@ fn run_xargo_build(
             env::set_var("LIQUID_ANALYSIS_TARGET_DIR", manifest_dir);
         }
 
+         // 设置 RUSTFLAGS 环境变量
+        let rustflags = "-C link-arg=-zstack-size=32768 -C target-feature=-mutable-globals,-sign-ext,-multivalue,-simd128";
+        env::set_var("RUSTFLAGS", rustflags);
         let manifest_path = Some(manifest_path);
         let target = Some(BUILD_TARGET_ARCH);
         let target_dir = crate_metadata.target_dir();
         let target_dir_arg = format!("--target-dir={}", target_dir.to_string_lossy());
-        let mut other_args = ["--no-default-features", "--release", &target_dir_arg, "-Ctarget-cpu=mvp"].to_vec();
+        let mut other_args = ["--no-default-features", "--release", &target_dir_arg].to_vec();
         if use_gm {
             other_args.push("--features=gm");
         }

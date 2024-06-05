@@ -178,7 +178,7 @@ fn run_xargo_build(
                 .with_profile_release_lto(false)?;
             Ok(())
         })?
-        .using_temp(xbuild)
+        .using_temp(xbuild)?;
     // Log the existence and size of the .wasm file
     if crate_metadata.original_wasm.exists() {
         let metadata = fs::metadata(&crate_metadata.original_wasm)?;

@@ -179,6 +179,19 @@ fn run_xargo_build(
             Ok(())
         })?
         .using_temp(xbuild)
+    // Log the existence and size of the .wasm file
+    if crate_metadata.original_wasm.exists() {
+        let metadata = fs::metadata(&crate_metadata.original_wasm)?;
+        println!(
+            "Wasm file generated at: '{}', size: {} bytes",
+            crate_metadata.original_wasm.display(),
+            metadata.len()
+        );
+    } else {
+        anyhow::bail!("Wasm file was not generated at '{}'", crate_metadata.original_wasm.display());
+    }
+
+    Ok(String::new())
 }
 
 fn build_cargo_project(
@@ -286,6 +299,10 @@ fn strip_custom_sections(module: &mut Module) {
 /// This step depends on the `wasm-opt` tool being installed. If it is not the build will still
 /// succeed, and the user will be encouraged to install it for further optimizations.
 fn optimize_wasm(crate_metadata: &CrateMetadata) -> Result<()> {
+    println!(
+        "Attempting to load wasm file from '{}'",
+        crate_metadata.original_wasm.display()
+    );
     // Deserialize wasm module from a file.
     let mut module =
         parity_wasm::deserialize_file(&crate_metadata.original_wasm).context(format!(
